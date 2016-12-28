@@ -1,3 +1,5 @@
+#include "gig.h"
+
 double _gig_mode(double lambda, double omega);
 double _rgig_ROU_noshift(double lambda, double lambda_old, double omega,
                          double alpha);
@@ -10,40 +12,10 @@ double _unur_bessel_k_nuasympt(double x, double nu, int islog,
 
 #define ZTOL (DOUBLE_EPS * 10.0)
 
-double rgig(double lambda, double chi, double psi)
+double Random::gig(double lambda, double chi, double psi)
 /*---------------------------------------------------------------------------*/
 /* Draw sample from GIG distribution.                                        */
 /* Wrapper for do_rgig() with GetRNGstate() ... PutRNGstate()                */
-/*                                                                           */
-/* Parameters:                                                               */
-/*   lambda .. parameter for distribution                                    */
-/*   chi   ... parameter for distribution                                    */
-/*   psi   ... parameter for distribution                                    */
-/*                                                                           */
-/* Return:                                                                   */
-/*   random sample                                                           */
-/*---------------------------------------------------------------------------*/
-{
-  double lambda, chi, psi; /* parameters of distribution */
-
-  /* Get state of R uniform PRNG */
-  GetRNGstate();
-
-  /* run generator */
-  double r = do_rgig(lambda, chi, psi);
-
-  /* Return state of PRNG to R */
-  PutRNGstate();
-
-  /* return result to R */
-  return r;
-
-} /* end of rgig() */
-
-double do_rgig(double lambda, double chi, double psi)
-/*---------------------------------------------------------------------------*/
-/* Draw sample from GIG distribution.                                        */
-/* without calling GetRNGstate() ... PutRNGstate()                           */
 /*                                                                           */
 /* Parameters:                                                               */
 /*   lambda .. parameter for distribution                                    */
