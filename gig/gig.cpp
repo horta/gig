@@ -110,7 +110,7 @@ double _gig_mode(double lambda, double omega)
                     (1. - lambda));
 }
 
-double _rgig_ROU_noshift(double lambda, double lambda_old, double omega,
+double Random::_rgig_ROU_noshift(double lambda, double lambda_old, double omega,
                          double alpha)
 /*---------------------------------------------------------------------------*/
 /* Tpye 1:                                                                   */
@@ -150,8 +150,8 @@ double _rgig_ROU_noshift(double lambda, double lambda_old, double omega,
   /* -- Generate sample ---------------------------------------------------- */
 
   do {
-    U = um * unif_rand(); /* U(0,umax) */
-    V = unif_rand();      /* U(0,vmax) */
+    U = um * uniform(); /* U(0,umax) */
+    V = uniform();      /* U(0,vmax) */
     X = U / V;
   } /* Acceptance/Rejection */
   while (((log(V)) > (t * log(X) - s * (X + 1. / X) - nc)));
@@ -159,7 +159,7 @@ double _rgig_ROU_noshift(double lambda, double lambda_old, double omega,
   return (lambda_old < 0.) ? (alpha / X) : (alpha * X);
 }
 
-double _rgig_newapproach1(double lambda, double lambda_old, double omega,
+double Random::_rgig_newapproach1(double lambda, double lambda_old, double omega,
                           double alpha)
 /*---------------------------------------------------------------------------*/
 /* Type 4:                                                                   */
@@ -233,7 +233,7 @@ double _rgig_newapproach1(double lambda, double lambda_old, double omega,
 
   do {
     /* get uniform random number */
-    V = Atot * unif_rand();
+    V = Atot * uniform();
 
     do {
 
@@ -267,7 +267,7 @@ double _rgig_newapproach1(double lambda, double lambda_old, double omega,
     } while (0);
 
     /* accept or reject */
-    U = unif_rand() * hx;
+    U = uniform() * hx;
 
     if (log(U) <= (lambda - 1.) * log(X) - omega / 2. * (X + 1. / X)) {
       /* store random point */
@@ -276,7 +276,7 @@ double _rgig_newapproach1(double lambda, double lambda_old, double omega,
   } while (1);
 }
 
-double _rgig_ROU_shift_alt(double lambda, double lambda_old, double omega,
+double Random::_rgig_ROU_shift_alt(double lambda, double lambda_old, double omega,
                            double alpha)
 /*---------------------------------------------------------------------------*/
 /* Type 8:                                                                   */
@@ -336,8 +336,8 @@ double _rgig_ROU_shift_alt(double lambda, double lambda_old, double omega,
 
   /* -- Generate sample ---------------------------------------------------- */
   do {
-    U = uminus + unif_rand() * (uplus - uminus); /* U(u-,u+)  */
-    V = unif_rand();                             /* U(0,vmax) */
+    U = uminus + uniform() * (uplus - uminus); /* U(u-,u+)  */
+    V = uniform();                             /* U(0,vmax) */
     X = U / V + xm;
   } /* Acceptance/Rejection */
   while ((X <= 0.) || ((log(V)) > (t * log(X) - s * (X + 1. / X) - nc)));
