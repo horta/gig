@@ -1,24 +1,23 @@
 #include "gig.h"
 
 #include <cmath>
-#include <limits>
 #include <iostream>
+#include <limits>
 
 using std::cerr;
 using std::endl;
 
 double _gig_mode(double lambda, double omega);
-double _rgig_ROU_noshift(double lambda, double lambda_old, double omega,
+double rgig_ROU_noshift(double lambda, double lambda_old, double omega,
+                        double alpha);
+double rgig_newapproach1(double lambda, double lambda_old, double omega,
                          double alpha);
-double _rgig_newapproach1(double lambda, double lambda_old, double omega,
+double rgig_ROU_shift_alt(double lambda, double lambda_old, double omega,
                           double alpha);
-double _rgig_ROU_shift_alt(double lambda, double lambda_old, double omega,
-                           double alpha);
 double _unur_bessel_k_nuasympt(double x, double nu, int islog,
                                int expon_scaled);
 
-constexpr double epsilon(void)
-{
+constexpr double epsilon(void) {
   return 10 * std::numeric_limits<double>::epsilon();
 }
 
@@ -73,13 +72,13 @@ double Random::gig(double lambda, double chi, double psi)
 
     if (lambda > 2. || omega > 3.) {
       /* Ratio-of-uniforms with shift by 'mode', alternative implementation */
-      res = _rgig_ROU_shift_alt(lambda, lambda_old, omega, alpha);
+      res = rgig_ROU_shift_alt(lambda, lambda_old, omega, alpha);
     } else if (lambda >= 1. - 2.25 * omega * omega || omega > 0.2) {
       /* Ratio-of-uniforms without shift */
-      res = _rgig_ROU_noshift(lambda, lambda_old, omega, alpha);
+      res = rgig_ROU_noshift(lambda, lambda_old, omega, alpha);
     } else if (lambda >= 0. && omega > 0.) {
       /* New approach, constant hat in log-concave part. */
-      res = _rgig_newapproach1(lambda, lambda_old, omega, alpha);
+      res = rgig_newapproach1(lambda, lambda_old, omega, alpha);
     } else
       cerr << "Parameters must satisfy lambda>=0 and omega>0." << endl;
   }
@@ -110,8 +109,8 @@ double _gig_mode(double lambda, double omega)
                     (1. - lambda));
 }
 
-double Random::_rgig_ROU_noshift(double lambda, double lambda_old, double omega,
-                         double alpha)
+double Random::rgig_ROU_noshift(double lambda, double lambda_old, double omega,
+                                double alpha)
 /*---------------------------------------------------------------------------*/
 /* Tpye 1:                                                                   */
 /* Ratio-of-uniforms without shift.                                          */
@@ -147,8 +146,6 @@ double Random::_rgig_ROU_noshift(double lambda, double lambda_old, double omega,
   /* right hand boundary: umax = ym * sqrt(f(ym)) / sqrt(f(xm)) */
   um = exp(0.5 * (lambda + 1.) * log(ym) - s * (ym + 1. / ym) - nc);
 
-  /* -- Generate sample ---------------------------------------------------- */
-
   do {
     U = um * uniform(); /* U(0,umax) */
     V = uniform();      /* U(0,vmax) */
@@ -159,8 +156,8 @@ double Random::_rgig_ROU_noshift(double lambda, double lambda_old, double omega,
   return (lambda_old < 0.) ? (alpha / X) : (alpha * X);
 }
 
-double Random::_rgig_newapproach1(double lambda, double lambda_old, double omega,
-                          double alpha)
+double Random::rgig_newapproach1(double lambda, double lambda_old, double omega,
+                                 double alpha)
 /*---------------------------------------------------------------------------*/
 /* Type 4:                                                                   */
 /* New approach, constant hat in log-concave part.                           */
@@ -276,8 +273,8 @@ double Random::_rgig_newapproach1(double lambda, double lambda_old, double omega
   } while (1);
 }
 
-double Random::_rgig_ROU_shift_alt(double lambda, double lambda_old, double omega,
-                           double alpha)
+double Random::rgig_ROU_shift_alt(double lambda, double lambda_old,
+                                  double omega, double alpha)
 /*---------------------------------------------------------------------------*/
 /* Type 8:                                                                   */
 /* Ratio-of-uniforms with shift by 'mode', alternative implementation.       */
