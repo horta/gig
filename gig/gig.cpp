@@ -1,5 +1,12 @@
 #include "gig.h"
 
+#include <cmath>
+#include <limits>
+#include <iostream>
+
+using std::cerr;
+using std::endl;
+
 double _gig_mode(double lambda, double omega);
 double _rgig_ROU_noshift(double lambda, double lambda_old, double omega,
                          double alpha);
@@ -10,7 +17,10 @@ double _rgig_ROU_shift_alt(double lambda, double lambda_old, double omega,
 double _unur_bessel_k_nuasympt(double x, double nu, int islog,
                                int expon_scaled);
 
-#define ZTOL (DOUBLE_EPS * 10.0)
+constexpr double epsilon(void)
+{
+  return 10 * std::numeric_limits<double>::epsilon();
+}
 
 double Random::gig(double lambda, double chi, double psi)
 /*---------------------------------------------------------------------------*/
@@ -30,26 +40,28 @@ double Random::gig(double lambda, double chi, double psi)
   double res;
 
   /* check GIG parameters: */
-  if (!(R_FINITE(lambda) && R_FINITE(chi) && R_FINITE(psi)) ||
+  if (!(std::isfinite(lambda) && std::isfinite(chi) && std::isfinite(psi)) ||
       (chi < 0. || psi < 0) || (chi == 0. && lambda <= 0.) ||
       (psi == 0. && lambda >= 0.)) {
-    error("invalid parameters for GIG distribution: lambda=%g, chi=%g, psi=%g",
-          lambda, chi, psi);
+    cerr << "Invalid parameters for GIG distribution: ";
+    cerr << "lambda=" << lambda;
+    cerr << ", chi=" << chi;
+    cerr << ", psi=" << psi << endl;
   }
 
-  if (chi < ZTOL) {
+  if (chi < epsilon()) {
     /* special cases which are basically Gamma and Inverse Gamma distribution */
     if (lambda > 0.0) {
-      res = rgamma(lambda, 2.0 / psi);
+      res = gamma(lambda, 2.0 / psi);
     } else {
-      res = 1.0 / rgamma(-lambda, 2.0 / psi);
+      res = 1.0 / gamma(-lambda, 2.0 / psi);
     }
-  } else if (psi < ZTOL) {
+  } else if (psi < epsilon()) {
     /* special cases which are basically Gamma and Inverse Gamma distribution */
     if (lambda > 0.0) {
-      res = 1.0 / rgamma(lambda, 2.0 / chi);
+      res = 1.0 / gamma(lambda, 2.0 / chi);
     } else {
-      res = rgamma(-lambda, 2.0 / chi);
+      res = gamma(-lambda, 2.0 / chi);
     }
 
   } else {
@@ -69,7 +81,7 @@ double Random::gig(double lambda, double chi, double psi)
       /* New approach, constant hat in log-concave part. */
       res = _rgig_newapproach1(lambda, lambda_old, omega, alpha);
     } else
-      error("parameters must satisfy lambda>=0 and omega>0.");
+      cerr << "Parameters must satisfy lambda>=0 and omega>0." << endl;
   }
 
   return res;
@@ -179,7 +191,7 @@ double _rgig_newapproach1(double lambda, double lambda_old, double omega,
   /* -- Check arguments ---------------------------------------------------- */
 
   if (lambda >= 1. || omega > 1.)
-    error("invalid parameters");
+    cerr << "Invalid parameters" << endl;
 
   /* -- Setup -------------------------------------------------------------- */
 
