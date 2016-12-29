@@ -1,22 +1,39 @@
-.. gig documentation master file, created by
-   sphinx-quickstart on Thu Dec 29 17:35:20 2016.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Welcome to gig's documentation!
-===============================
-
-Contents:
-
-.. toctree::
-   :maxdepth: 2
+===================
+Gig's documentation
+===================
 
 
+Draws from the Generalized Inverse Gaussian distribution
 
-Indices and tables
-==================
+.. math::
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+  f(x) = x^{\lambda - 1} e^{-\frac{1}{2}(\chi/x + \psi x)}
 
+where :math:`\lambda` is any real number, :math:`\chi` must be be nonnegative
+for positive :math:`\lambda` or nonpositive otherwise and :math:`\psi` must be
+be nonnegative for negative :math:`\lambda` or nonnegative otherwise.
+
+--------
+Build it
+--------
+
+In the project folder, type
+
+.. code-block:: bash
+
+  mkdir build
+  cd build
+  cmake ..
+  make
+
+It should create the library
+
+.. code-block:: bash
+
+  gig/libgig.[extension]
+
+And if you want to test it:
+
+.. code-block:: bash
+
+  make test
