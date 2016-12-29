@@ -12,23 +12,16 @@ using std::sqrt;
 using std::cerr;
 using std::endl;
 
-double gig_mode(double lambda, double omega)
-/*---------------------------------------------------------------------------*/
-/* Compute mode of GIG distribution.                                         */
-/*                                                                           */
-/* Parameters:                                                               */
-/*   lambda .. parameter for distribution                                    */
-/*   omega ... parameter for distribution                                    */
-/*                                                                           */
-/* Return:                                                                   */
-/*   mode                                                                    */
-/*
-/*
-/*
-/* Mode of fgig(x) if lambda >= 1.
-/* Mode of f(1/x) 0 <= lambda < 1.
-/*---------------------------------------------------------------------------*/
-{
+/**
+ * Compute mode of GIG distribution.
+ * @param  lambda parameter 1
+ * @param  omega  parameter 2
+ * @return        mode
+ *
+ * Mode of fgig(x) if lambda >= 1.
+ * Mode of f(1/x) 0 <= lambda < 1.
+ */
+double gig_mode(double lambda, double omega) {
   if (lambda >= 1.)
     return (sqrt((lambda - 1.) * (lambda - 1.) + omega * omega) +
             (lambda - 1.)) /
@@ -42,24 +35,18 @@ constexpr double epsilon(void) {
   return 10 * std::numeric_limits<double>::epsilon();
 }
 
+/**
+ * Draw sample from GIG distribution.
+ * @param  lambda parameter 1.
+ * @param  chi    parameter 2.
+ * @param  psi    parameter 3.
+ * @return        sample
+ */
 double Random::gig(double lambda, double chi, double psi)
-/*---------------------------------------------------------------------------*/
-/* Draw sample from GIG distribution.                                        */
-/* Wrapper for do_rgig() with GetRNGstate() ... PutRNGstate()                */
-/*                                                                           */
-/* Parameters:                                                               */
-/*   lambda .. parameter for distribution                                    */
-/*   chi   ... parameter for distribution                                    */
-/*   psi   ... parameter for distribution                                    */
-/*                                                                           */
-/* Return:                                                                   */
-/*   random sample                                                           */
-/*---------------------------------------------------------------------------*/
 {
-  double omega, alpha; /* parameters of standard distribution */
-  double res;
+  double omega, alpha;
+  double res = NAN;
 
-  /* check GIG parameters: */
   if (!(std::isfinite(lambda) && std::isfinite(chi) && std::isfinite(psi)) ||
       (chi < 0. || psi < 0) || (chi == 0. && lambda <= 0.) ||
       (psi == 0. && lambda >= 0.)) {
