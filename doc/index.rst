@@ -18,7 +18,7 @@ Install
 -------
 
 Download and unpack the `latest version`_.
-In the software folder, type
+In the unpacked folder, type
 
 .. code-block:: bash
 
