@@ -91,11 +91,20 @@ Interface
 
 .. cpp:class:: Random
 
-  .. cpp:function:: double gig(double lambda, double chi, double psi)
+  Generalized Inverse Gaussian distribution sampler
+
+  .. cpp:function:: Random::Random(unsigned int seed)
+
+    Initialize sampler with a seed.
+
+  .. cpp:function:: double Random::gig(double lambda, double chi, double psi)
 
     Draw sample from GIG distribution.
 
-    :param double lambda: param1.
+    :param double lambda: shape parameter.
+    :param double chi: shape and scale parameter.
+    :param double psi: shape and scale parameter.
+    :return: sample.
 
 
 ----------

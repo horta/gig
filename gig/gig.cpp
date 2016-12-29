@@ -37,9 +37,9 @@ constexpr double epsilon(void) {
 
 /**
  * Draw sample from GIG distribution.
- * @param  lambda parameter 1.
- * @param  chi    parameter 2.
- * @param  psi    parameter 3.
+ * @param  lambda shape parameter.
+ * @param  chi    shape and scale parameter.
+ * @param  psi    shape and scale parameter.
  * @return        sample
  */
 double Random::gig(double lambda, double chi, double psi) {
