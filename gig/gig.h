@@ -17,12 +17,12 @@ private:
     return std::gamma_distribution<double>(shape, scale)(generator);
   }
 
-  double rgig_ROU_noshift(double lambda, double lambda_old, double omega,
-                          double alpha);
-  double rgig_newapproach1(double lambda, double lambda_old, double omega,
-                           double alpha);
-  double rgig_ROU_shift_alt(double lambda, double lambda_old, double omega,
-                            double alpha);
+  double ratio_of_uniforms_noshift(double lambda, double lambda_old,
+                                   double omega, double alpha);
+  double unnamed_approach(double lambda, double lambda_old, double omega,
+                         double alpha);
+  double ratio_of_uniforms_mode(double lambda, double lambda_old, double omega,
+                                double alpha);
 
 public:
   Random(unsigned int seed) : generator(seed) {}

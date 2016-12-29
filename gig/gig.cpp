@@ -42,8 +42,7 @@ constexpr double epsilon(void) {
  * @param  psi    parameter 3.
  * @return        sample
  */
-double Random::gig(double lambda, double chi, double psi)
-{
+double Random::gig(double lambda, double chi, double psi) {
   double omega, alpha;
   double res = NAN;
 
@@ -80,13 +79,13 @@ double Random::gig(double lambda, double chi, double psi)
 
     if (lambda > 2. || omega > 3.) {
       /* Ratio-of-uniforms with shift by 'mode', alternative implementation */
-      res = rgig_ROU_shift_alt(lambda, lambda_old, omega, alpha);
+      res = ratio_of_uniforms_mode(lambda, lambda_old, omega, alpha);
     } else if (lambda >= 1. - 2.25 * omega * omega || omega > 0.2) {
       /* Ratio-of-uniforms without shift */
-      res = rgig_ROU_noshift(lambda, lambda_old, omega, alpha);
+      res = ratio_of_uniforms_noshift(lambda, lambda_old, omega, alpha);
     } else if (lambda >= 0. && omega > 0.) {
       /* New approach, constant hat in log-concave part. */
-      res = rgig_newapproach1(lambda, lambda_old, omega, alpha);
+      res = unnamed_approach(lambda, lambda_old, omega, alpha);
     } else
       cerr << "Parameters must satisfy lambda>=0 and omega>0." << endl;
   }
@@ -94,8 +93,8 @@ double Random::gig(double lambda, double chi, double psi)
   return res;
 }
 
-double Random::rgig_ROU_noshift(double lambda, double lambda_old, double omega,
-                                double alpha)
+double Random::ratio_of_uniforms_noshift(double lambda, double lambda_old,
+                                         double omega, double alpha)
 /*---------------------------------------------------------------------------*/
 /* Tpye 1:                                                                   */
 /* Ratio-of-uniforms without shift.                                          */
@@ -141,7 +140,7 @@ double Random::rgig_ROU_noshift(double lambda, double lambda_old, double omega,
   return (lambda_old < 0.) ? (alpha / X) : (alpha * X);
 }
 
-double Random::rgig_newapproach1(double lambda, double lambda_old, double omega,
+double Random::unnamed_approach(double lambda, double lambda_old, double omega,
                                  double alpha)
 /*---------------------------------------------------------------------------*/
 /* Type 4:                                                                   */
@@ -252,7 +251,7 @@ double Random::rgig_newapproach1(double lambda, double lambda_old, double omega,
   } while (1);
 }
 
-double Random::rgig_ROU_shift_alt(double lambda, double lambda_old,
+double Random::ratio_of_uniforms_mode(double lambda, double lambda_old,
                                   double omega, double alpha)
 /*---------------------------------------------------------------------------*/
 /* Type 8:                                                                   */
