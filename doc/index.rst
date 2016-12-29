@@ -17,7 +17,9 @@ be nonnegative (nonpositive) for negative (positive) :math:`\lambda`.
 Install
 -------
 
-In the project folder, type
+Download and unpack the
+[latest version](https://github.com/Horta/gig/releases/latest).
+In the software folder, type
 
 .. code-block:: bash
 
@@ -81,3 +83,11 @@ Compiling, linking, and running it via
 should print::
 
   1.30869
+
+----------
+Disclaimer
+----------
+
+This library is simply a wrapper around Josef Leydold and Wolfgang Hormann's
+implementation of a GIG sampler found in the
+[GIGrvg package](https://cran.r-project.org/web/packages/GIGrvg/GIGrvg.pdf).
