@@ -22,19 +22,21 @@ double gig_mode(double lambda, double omega)
 /*                                                                           */
 /* Return:                                                                   */
 /*   mode                                                                    */
+/*
+/*
+/*
+/* Mode of fgig(x) if lambda >= 1.
+/* Mode of f(1/x) 0 <= lambda < 1.
 /*---------------------------------------------------------------------------*/
 {
   if (lambda >= 1.)
-    /* mode of fgig(x) */
     return (sqrt((lambda - 1.) * (lambda - 1.) + omega * omega) +
             (lambda - 1.)) /
            omega;
   else
-    /* 0 <= lambda < 1: use mode of f(1/x) */
     return omega / (sqrt((1. - lambda) * (1. - lambda) + omega * omega) +
                     (1. - lambda));
 }
-
 
 constexpr double epsilon(void) {
   return 10 * std::numeric_limits<double>::epsilon();
@@ -166,7 +168,7 @@ double Random::rgig_newapproach1(double lambda, double lambda_old, double omega,
 /*   omega ... parameter for distribution                                    */
 /*                                                                           */
 /* Return:                                                                   */
-/*   random sample of size 'n'                                               */
+/*   random sample                                               */
 /*---------------------------------------------------------------------------*/
 {
   /* parameters for hat function */
@@ -181,12 +183,8 @@ double Random::rgig_newapproach1(double lambda, double lambda_old, double omega,
   double U, V, X; /* random numbers */
   double hx;      /* hat at X */
 
-  /* -- Check arguments ---------------------------------------------------- */
-
   if (lambda >= 1. || omega > 1.)
     cerr << "Invalid parameters" << endl;
-
-  /* -- Setup -------------------------------------------------------------- */
 
   /* mode = location of maximum of sqrt(f(x)) */
   xm = gig_mode(lambda, omega);
@@ -221,8 +219,6 @@ double Random::rgig_newapproach1(double lambda, double lambda_old, double omega,
 
   /* total area */
   Atot = A[0] + A[1] + A[2];
-
-  /* -- Generate sample ---------------------------------------------------- */
 
   do {
     /* get uniform random number */
@@ -327,7 +323,6 @@ double Random::rgig_ROU_shift_alt(double lambda, double lambda_old,
   uplus = (y1 - xm) * exp(t * log(y1) - s * (y1 + 1. / y1) - nc);
   uminus = (y2 - xm) * exp(t * log(y2) - s * (y2 + 1. / y2) - nc);
 
-  /* -- Generate sample ---------------------------------------------------- */
   do {
     U = uminus + uniform() * (uplus - uminus); /* U(u-,u+)  */
     V = uniform();                             /* U(0,vmax) */
