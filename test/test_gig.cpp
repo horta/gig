@@ -1,6 +1,4 @@
 #include "gig/gig.h"
-#include <iostream>
-#include <iomanip>
 #include <cassert>
 
 using std::abs;
@@ -20,6 +18,7 @@ int main(int argc, char const *argv[]) {
   assert(isclose(random.gig(2.1, 0.1, 1003.2), 0.007932940552363928338186481));
   assert(isclose(random.gig(0.1, 10.1, 0.001), 811.3064195112882543980958872));
   assert(isclose(random.gig(2.2, 0.001, 0.4), 16.09480769605515959597141773));
+  assert(isclose(random.gig(-1, 1, 2), 0.79130783712979646526974875087));
 
   return 0;
 }
