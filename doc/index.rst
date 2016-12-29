@@ -13,9 +13,9 @@ where :math:`\lambda` is any real number, :math:`\chi` must be nonnegative
 (nonpositive) for positive (negative) :math:`\lambda` and :math:`\psi` must be
 be nonnegative (nonpositive) for negative (positive) :math:`\lambda`.
 
---------
-Build it
---------
+-------
+Install
+-------
 
 In the project folder, type
 
@@ -26,14 +26,23 @@ In the project folder, type
   cmake ..
   make
 
-It should create the library
+It should create the shared and static libraries
 
 .. code-block:: bash
 
-  gig/libgig.[extension]
+  libgig.[version].[extension]
+  libgig_static.[extension]
 
-And if you want to test it:
+You can enter
 
 .. code-block:: bash
 
   make test
+
+to test it and
+
+.. code-block:: bash
+
+  make install
+
+to install.
