@@ -9,9 +9,9 @@ Draws from the Generalized Inverse Gaussian distribution
 
   f(x) = x^{\lambda - 1} e^{-\frac{1}{2}(\chi/x + \psi x)}
 
-where :math:`\lambda` is any real number, :math:`\chi` must be be nonnegative
-for positive :math:`\lambda` or nonpositive otherwise and :math:`\psi` must be
-be nonnegative for negative :math:`\lambda` or nonnegative otherwise.
+where :math:`\lambda` is any real number, :math:`\chi` must be nonnegative
+(nonpositive) for positive (negative) :math:`\lambda` and :math:`\psi` must be
+be nonnegative (nonpositive) for negative (positive) :math:`\lambda`.
 
 --------
 Build it
