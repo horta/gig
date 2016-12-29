@@ -75,9 +75,9 @@ Compiling, linking, and running it via
 
 .. code-block:: bash
 
-  cpp libgig_static.a example.cpp -o example
+  g++ libgig_static.a  example.cpp -o example
   ./example
 
 should print::
 
-  -2.049961
+  1.30869
