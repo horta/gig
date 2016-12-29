@@ -1,0 +1,24 @@
+dist: trusty
+sudo: false
+language: cpp
+addons:
+  apt:
+    packages:
+    - cmake
+compiler:
+- clang
+- gcc
+before_script:
+- mkdir build && pushd build && cmake .. && make
+- make test
+- popd
+- rm -rf build
+script:
+- mkdir dist && pushd dist && cmake .. && popd
+- mv dist gig-`cat VERSION`
+- tar czf gig-`cat VERSION`.tar.gz gig-`cat VERSION`
+- rm -rf dist
+after_failure:
+- rm -rf * && cmake .. && make && make test ARGS="-V"
+notifications:
+  email: false
