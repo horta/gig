@@ -37,7 +37,7 @@ install(TARGETS gig_static
         LIBRARY DESTINATION lib
       PUBLIC_HEADER DESTINATION include/gig)
 
-# add_subdirectory(test)
-#
-# enable_testing()
-# add_test(NAME TestLinking COMMAND test_linking)
+add_subdirectory(test)
+
+enable_testing()
+add_test(NAME TestGIG COMMAND test_gig)
