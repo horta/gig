@@ -67,7 +67,7 @@ g++ libgig_static.a  example.cpp -o example
 ./example
 ```
 
-should print::
+should print
 
 ```
 1.30869

@@ -85,6 +85,19 @@ should print::
 
   1.30869
 
+---------
+Interface
+---------
+
+.. cpp:class:: Random
+
+  .. cpp:function:: double gig(double lambda, double chi, double psi)
+
+    Draw sample from GIG distribution.
+
+    :param double lambda: param1.
+
+
 ----------
 Disclaimer
 ----------
