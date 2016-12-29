@@ -17,7 +17,7 @@ be nonnegative (nonpositive) for negative (positive) :math:`\lambda`.
 Install
 -------
 
-Download and unpack the latest version_.
+Download and unpack the `latest version`_.
 In the software folder, type
 
 .. code-block:: bash
@@ -90,6 +90,6 @@ Disclaimer
 ----------
 
 This library is simply a wrapper around Josef Leydold and Wolfgang Hormann's
-implementation of a GIG sampler found in the GIGrvg package_.
+implementation of a GIG sampler found in the `GIGrvg package`_.
 
 .. _GIGrvg package: https://cran.r-project.org/web/packages/GIGrvg/GIGrvg.pdf
