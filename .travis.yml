@@ -22,3 +22,11 @@ after_failure:
 - rm -rf * && cmake .. && make && make test ARGS="-V"
 notifications:
   email: false
+deploy:
+  provider: releases
+  api_key:
+    secure: TCXf92MKxYnYYWorVA5docScDeM/4vBGX98T1BYBCStEcfVyWWa07vyMHhcL7KSYIX0h+nVOoZc7UWUl+gCUCK4LYoQC+dMDzXMuOqA4cvvYBpOc0exG6MY+lyukOL4KxtPDgzRjA1k0DCnBLX4GV/+NIUVvEyiimdSbMcQgEHzvYPSYMA0ThVNQq+VgAE1NEj0Oz1gF0R2T64mPsqRnsSgqt+Chrk6x6BNe2EqWDsI7ASviKiOfDl1UYEl2h0uzMchUQaqOLqY0j+wE9Y/ZOcw4PBHKbbOdW3lYp5A0jmkwT4/3s2SB2/3Gguj5XRac+BMZ6jrNpicTdLc9ZcWZTzPg2pqywhfeYtMCwAHCtuA551TSLuOMYLf/P82s7jJCaTd8tWOfuLxugG8kYPXWzjg9lQMYtGMzNX6nq14eIY1awELcrbJGS+1/7t7CjL+LLTBeUTN1s7t3cN7yFzqRgs66Dt6GHl99AgUhNKGnMyN5qf3agKq/XmjRUFGZlduaSTPGSOlMiTilki9xodLARlwKDRYJ7hKjMsgbmlo6dR5LWfn9PZnDKFXyWvzWdGj8sApptIscZTpm/k8WJrvLWAZyoQmd9qWjCJvvzFivqf17dhAQh8ErCIE35dGVpa2t0A7M5dXD0oNaAd7hRymgfwDjCyiuQRax9rUb+fqkDL4=
+  on:
+    tags: true
+    repo: Horta/gig
+    condition: "$CC = clang"
