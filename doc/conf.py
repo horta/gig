@@ -10,7 +10,6 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
-    'sphinx.ext.githubpages',
 ]
 templates_path = ['_templates']
 source_suffix = '.rst'
