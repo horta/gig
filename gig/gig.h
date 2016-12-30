@@ -6,7 +6,6 @@
 template< class Generator >
 class Random {
 private:
-  // std::default_random_engine generator;
   Generator generator;
 
   double normal(void) { return std::normal_distribution<double>()(generator); }
@@ -27,9 +26,6 @@ private:
                                 double alpha);
 
 public:
-  // template< class Generator >
-  // result_type
-  // Generator& g
   Random(Generator& g) : generator(g) {}
   Random(unsigned int seed);
   double gig(double lambda, double chi, double psi);
