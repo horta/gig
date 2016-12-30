@@ -91,11 +91,13 @@ Interface
 
 .. cpp:class:: Random
 
-  Generalized Inverse Gaussian distribution sampler
+  Generalized Inverse Gaussian distribution sampler.
 
   .. cpp:function:: Random::Random(unsigned int seed)
 
     Initialize sampler with a seed.
+
+    :param seed: Seed.
 
   .. cpp:function:: double Random::gig(double lambda, double chi, double psi)
 

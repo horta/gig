@@ -3,9 +3,11 @@
 
 #include <random>
 
+template< class Generator >
 class Random {
 private:
-  std::default_random_engine generator;
+  // std::default_random_engine generator;
+  Generator generator;
 
   double normal(void) { return std::normal_distribution<double>()(generator); }
 
@@ -25,8 +27,18 @@ private:
                                 double alpha);
 
 public:
-  Random(unsigned int seed) : generator(seed) {}
+  // template< class Generator >
+  // result_type
+  // Generator& g
+  Random(Generator& g) : generator(g) {}
+  Random(unsigned int seed);
   double gig(double lambda, double chi, double psi);
 };
+
+template< >
+Random<std::default_random_engine>::Random(unsigned int seed)
+  : generator(seed)
+{
+}
 
 #endif
