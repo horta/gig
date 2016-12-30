@@ -100,11 +100,11 @@ Interface
 
     :param seed: Seed.
 
-  .. cpp:function:: template< class Generator > Random<Generator>::Random(Generator& g)
+  .. cpp:function:: template< class Generator > Random<Generator>::Random(Generator& generator)
 
     Initialize sampler with a random number generator.
 
-    :param g: Generator (e.g., :cpp:class:`std::default_random_engine`).
+    :param generator: Generator (e.g., :cpp:class:`std::default_random_engine`).
 
   .. cpp:function:: template< class Generator > double Random<Generator>::gig(double lambda, double chi, double psi)
 
