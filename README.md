@@ -46,11 +46,12 @@ Suppose you have the file
 /* example.cpp */
 #include "gig/gig.h"
 
+#include <random>
 #include <iostream>
 
 int main()
 {
-  Random random(1);
+  Random<std::default_random_engine> random(1);
 
   double lambda = 2.1;
   double chi = 0.1;

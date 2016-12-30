@@ -61,11 +61,12 @@ Suppose you have the file
   /* example.cpp */
   #include "gig/gig.h"
 
+  #include <random>
   #include <iostream>
 
   int main()
   {
-    Random random(1);
+    Random<std::default_random_engine> random(1);
 
     double lambda = 2.1;
     double chi = 0.1;
@@ -89,17 +90,23 @@ should print::
 Interface
 ---------
 
-.. cpp:class:: Random
+.. cpp:class:: template< class Generator > Random
 
   Generalized Inverse Gaussian distribution sampler.
 
-  .. cpp:function:: Random::Random(unsigned int seed)
+  .. cpp:function:: template<> Random<std::default_random_engine>::Random(unsigned int seed)
 
     Initialize sampler with a seed.
 
     :param seed: Seed.
 
-  .. cpp:function:: double Random::gig(double lambda, double chi, double psi)
+  .. cpp:function:: template< class Generator > Random<Generator>::Random(Generator& g)
+
+    Initialize sampler with a random number generator.
+
+    :param g: Generator (e.g., :cpp:class:`std::default_random_engine`).
+
+  .. cpp:function:: template< class Generator > double Random<Generator>::gig(double lambda, double chi, double psi)
 
     Draw sample from GIG distribution.
 
