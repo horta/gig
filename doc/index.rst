@@ -46,7 +46,7 @@ to test it and
 
   make install
 
-to install.
+to install it.
 
 .. _latest version: https://github.com/Horta/gig/releases/latest
 
@@ -66,7 +66,7 @@ Suppose you have the file
 
   int main()
   {
-    Random<std::default_random_engine> random(1);
+    Random random(1);
 
     double lambda = 2.1;
     double chi = 0.1;
@@ -79,7 +79,7 @@ Compiling, linking, and running it via
 
 .. code-block:: bash
 
-  g++ libgig_static.a  example.cpp -o example
+  g++ -lgig example.cpp -o example
   ./example
 
 should print::

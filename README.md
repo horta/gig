@@ -38,41 +38,9 @@ make install
 
 to install.
 
-## Usage example
+## Documentation
 
-Suppose you have the file
-
-```cpp
-/* example.cpp */
-#include "gig/gig.h"
-
-#include <random>
-#include <iostream>
-
-int main()
-{
-  Random<std::default_random_engine> random(1);
-
-  double lambda = 2.1;
-  double chi = 0.1;
-  double psi = 1.0;
-
-  std::cout << random.gig(lambda, chi, psi) << std::endl;
-}
-```
-
-Compiling, linking, and running it via
-
-```bash
-g++ libgig_static.a  example.cpp -o example
-./example
-```
-
-should print
-
-```
-1.30869
-```
+Further information can be found at http://gig.readthedocs.io.
 
 ## Disclaimer
 
