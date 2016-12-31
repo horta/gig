@@ -11,7 +11,7 @@ bool isclose(double x, double y) {
 
 void test_seed()
 {
-  Random<std::default_random_engine> random(0);
+  Random random(0);
 
   assert(isclose(random.gig(2.1, 0.1, 1.0), 1.30869321355819901));
   assert(isclose(random.gig(2.1, 0.1, 10.4) , 0.156671928679679994811380084));
@@ -24,7 +24,7 @@ void test_seed()
 void test_generator()
 {
   std::default_random_engine generator(0);
-  Random<decltype(generator)> random(generator);
+  Random random(generator);
 
   assert(isclose(random.gig(2.1, 0.1, 1.0), 1.30869321355819901));
   assert(isclose(random.gig(2.1, 0.1, 10.4) , 0.156671928679679994811380084));

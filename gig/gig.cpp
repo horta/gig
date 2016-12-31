@@ -12,6 +12,27 @@ using std::sqrt;
 using std::cerr;
 using std::endl;
 
+double ratio_of_uniforms_noshift(double lambda, double lambda_old, double omega,
+                                 double alpha,
+                                 default_random_engine &generator);
+double ratio_of_uniforms_mode(double lambda, double lambda_old, double omega,
+                              double alpha, default_random_engine &generator);
+double unnamed_approach(double lambda, double lambda_old, double omega,
+                        double alpha, default_random_engine &generator);
+
+inline double normal(default_random_engine &generator) {
+  return std::normal_distribution<double>()(generator);
+}
+
+inline double uniform(default_random_engine &generator) {
+  return std::uniform_real_distribution<double>()(generator);
+}
+
+inline double gamma(double shape, double scale,
+                    default_random_engine &generator) {
+  return std::gamma_distribution<double>(shape, scale)(generator);
+}
+
 /**
  * Compute mode of GIG distribution.
  * @param  lambda parameter 1
@@ -21,7 +42,7 @@ using std::endl;
  * Mode of fgig(x) if lambda >= 1.
  * Mode of f(1/x) 0 <= lambda < 1.
  */
-double gig_mode(double lambda, double omega) {
+inline double gig_mode(double lambda, double omega) {
   if (lambda >= 1.)
     return (sqrt((lambda - 1.) * (lambda - 1.) + omega * omega) +
             (lambda - 1.)) /
@@ -42,8 +63,7 @@ constexpr double epsilon(void) {
  * @param  psi    shape and scale parameter.
  * @return        sample
  */
-template <class Generator>
-double Random<Generator>::gig(double lambda, double chi, double psi) {
+double Random::gig(double lambda, double chi, double psi) {
   double omega, alpha;
   double res = NAN;
 
@@ -59,16 +79,16 @@ double Random<Generator>::gig(double lambda, double chi, double psi) {
   if (chi < epsilon()) {
     /* special cases which are basically Gamma and Inverse Gamma distribution */
     if (lambda > 0.0) {
-      res = gamma(lambda, 2.0 / psi);
+      res = gamma(lambda, 2.0 / psi, generator);
     } else {
-      res = 1.0 / gamma(-lambda, 2.0 / psi);
+      res = 1.0 / gamma(-lambda, 2.0 / psi, generator);
     }
   } else if (psi < epsilon()) {
     /* special cases which are basically Gamma and Inverse Gamma distribution */
     if (lambda > 0.0) {
-      res = 1.0 / gamma(lambda, 2.0 / chi);
+      res = 1.0 / gamma(lambda, 2.0 / chi, generator);
     } else {
-      res = gamma(-lambda, 2.0 / chi);
+      res = gamma(-lambda, 2.0 / chi, generator);
     }
 
   } else {
@@ -80,13 +100,14 @@ double Random<Generator>::gig(double lambda, double chi, double psi) {
 
     if (lambda > 2. || omega > 3.) {
       /* Ratio-of-uniforms with shift by 'mode', alternative implementation */
-      res = ratio_of_uniforms_mode(lambda, lambda_old, omega, alpha);
+      res = ratio_of_uniforms_mode(lambda, lambda_old, omega, alpha, generator);
     } else if (lambda >= 1. - 2.25 * omega * omega || omega > 0.2) {
       /* Ratio-of-uniforms without shift */
-      res = ratio_of_uniforms_noshift(lambda, lambda_old, omega, alpha);
+      res = ratio_of_uniforms_noshift(lambda, lambda_old, omega, alpha,
+                                      generator);
     } else if (lambda >= 0. && omega > 0.) {
       /* New approach, constant hat in log-concave part. */
-      res = unnamed_approach(lambda, lambda_old, omega, alpha);
+      res = unnamed_approach(lambda, lambda_old, omega, alpha, generator);
     } else
       cerr << "Parameters must satisfy lambda>=0 and omega>0." << endl;
   }
@@ -94,10 +115,8 @@ double Random<Generator>::gig(double lambda, double chi, double psi) {
   return res;
 }
 
-template <class Generator>
-double Random<Generator>::ratio_of_uniforms_noshift(double lambda,
-                                                    double lambda_old,
-                                                    double omega, double alpha)
+double ratio_of_uniforms_noshift(double lambda, double lambda_old, double omega,
+                                 double alpha, default_random_engine &generator)
 /*---------------------------------------------------------------------------*/
 /* Tpye 1:                                                                   */
 /* Ratio-of-uniforms without shift.                                          */
@@ -134,8 +153,8 @@ double Random<Generator>::ratio_of_uniforms_noshift(double lambda,
   um = exp(0.5 * (lambda + 1.) * log(ym) - s * (ym + 1. / ym) - nc);
 
   do {
-    U = um * uniform(); /* U(0,umax) */
-    V = uniform();      /* U(0,vmax) */
+    U = um * uniform(generator); /* U(0,umax) */
+    V = uniform(generator);      /* U(0,vmax) */
     X = U / V;
   } /* Acceptance/Rejection */
   while (((log(V)) > (t * log(X) - s * (X + 1. / X) - nc)));
@@ -143,9 +162,8 @@ double Random<Generator>::ratio_of_uniforms_noshift(double lambda,
   return (lambda_old < 0.) ? (alpha / X) : (alpha * X);
 }
 
-template <class Generator>
-double Random<Generator>::unnamed_approach(double lambda, double lambda_old,
-                                           double omega, double alpha)
+double unnamed_approach(double lambda, double lambda_old, double omega,
+                        double alpha, default_random_engine &generator)
 /*---------------------------------------------------------------------------*/
 /* Type 4:                                                                   */
 /* New approach, constant hat in log-concave part.                           */
@@ -212,7 +230,7 @@ double Random<Generator>::unnamed_approach(double lambda, double lambda_old,
 
   do {
     /* get uniform random number */
-    V = Atot * uniform();
+    V = Atot * uniform(generator);
 
     do {
 
@@ -246,7 +264,7 @@ double Random<Generator>::unnamed_approach(double lambda, double lambda_old,
     } while (0);
 
     /* accept or reject */
-    U = uniform() * hx;
+    U = uniform(generator) * hx;
 
     if (log(U) <= (lambda - 1.) * log(X) - omega / 2. * (X + 1. / X)) {
       /* store random point */
@@ -255,10 +273,8 @@ double Random<Generator>::unnamed_approach(double lambda, double lambda_old,
   } while (1);
 }
 
-template <class Generator>
-double Random<Generator>::ratio_of_uniforms_mode(double lambda,
-                                                 double lambda_old,
-                                                 double omega, double alpha)
+double ratio_of_uniforms_mode(double lambda, double lambda_old, double omega,
+                              double alpha, default_random_engine &generator)
 /*---------------------------------------------------------------------------*/
 /* Type 8:                                                                   */
 /* Ratio-of-uniforms with shift by 'mode', alternative implementation.       */
@@ -316,8 +332,8 @@ double Random<Generator>::ratio_of_uniforms_mode(double lambda,
   uminus = (y2 - xm) * exp(t * log(y2) - s * (y2 + 1. / y2) - nc);
 
   do {
-    U = uminus + uniform() * (uplus - uminus); /* U(u-,u+)  */
-    V = uniform();                             /* U(0,vmax) */
+    U = uminus + uniform(generator) * (uplus - uminus); /* U(u-,u+)  */
+    V = uniform(generator);                             /* U(0,vmax) */
     X = U / V + xm;
   } /* Acceptance/Rejection */
   while ((X <= 0.) || ((log(V)) > (t * log(X) - s * (X + 1. / X) - nc)));
