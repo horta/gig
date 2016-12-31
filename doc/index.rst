@@ -90,23 +90,23 @@ should print::
 Interface
 ---------
 
-.. cpp:class:: template< class Generator > Random
+.. cpp:class:: Random
 
   Generalized Inverse Gaussian distribution sampler.
 
-  .. cpp:function:: template<> Random<std::default_random_engine>::Random(unsigned int seed)
+  .. cpp:function:: Random::Random(unsigned int seed)
 
     Initialize sampler with a seed.
 
     :param seed: Seed.
 
-  .. cpp:function:: template< class Generator > Random<Generator>::Random(Generator& generator)
+  .. cpp:function:: Random::Random(std::default_random_engine& generator)
 
     Initialize sampler with a random number generator.
 
-    :param generator: Generator (e.g., :cpp:class:`std::default_random_engine`).
+    :param generator: Generator.
 
-  .. cpp:function:: template< class Generator > double Random<Generator>::gig(double lambda, double chi, double psi)
+  .. cpp:function:: double Random::gig(double lambda, double chi, double psi)
 
     Draw sample from GIG distribution.
 
