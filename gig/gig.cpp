@@ -13,23 +13,21 @@ using std::cerr;
 using std::endl;
 
 double ratio_of_uniforms_noshift(double lambda, double lambda_old, double omega,
-                                 double alpha,
-                                 default_random_engine &generator);
+                                 double alpha, mt19937_64 &generator);
 double ratio_of_uniforms_mode(double lambda, double lambda_old, double omega,
-                              double alpha, default_random_engine &generator);
+                              double alpha, mt19937_64 &generator);
 double unnamed_approach(double lambda, double lambda_old, double omega,
-                        double alpha, default_random_engine &generator);
+                        double alpha, mt19937_64 &generator);
 
-inline double normal(default_random_engine &generator) {
+inline double normal(mt19937_64 &generator) {
   return std::normal_distribution<double>()(generator);
 }
 
-inline double uniform(default_random_engine &generator) {
+inline double uniform(mt19937_64 &generator) {
   return std::uniform_real_distribution<double>()(generator);
 }
 
-inline double gamma(double shape, double scale,
-                    default_random_engine &generator) {
+inline double gamma(double shape, double scale, mt19937_64 &generator) {
   return std::gamma_distribution<double>(shape, scale)(generator);
 }
 
@@ -116,7 +114,7 @@ double Random::gig(double lambda, double chi, double psi) {
 }
 
 double ratio_of_uniforms_noshift(double lambda, double lambda_old, double omega,
-                                 double alpha, default_random_engine &generator)
+                                 double alpha, mt19937_64 &generator)
 /*---------------------------------------------------------------------------*/
 /* Tpye 1:                                                                   */
 /* Ratio-of-uniforms without shift.                                          */
@@ -163,7 +161,7 @@ double ratio_of_uniforms_noshift(double lambda, double lambda_old, double omega,
 }
 
 double unnamed_approach(double lambda, double lambda_old, double omega,
-                        double alpha, default_random_engine &generator)
+                        double alpha, mt19937_64 &generator)
 /*---------------------------------------------------------------------------*/
 /* Type 4:                                                                   */
 /* New approach, constant hat in log-concave part.                           */
@@ -274,7 +272,7 @@ double unnamed_approach(double lambda, double lambda_old, double omega,
 }
 
 double ratio_of_uniforms_mode(double lambda, double lambda_old, double omega,
-                              double alpha, default_random_engine &generator)
+                              double alpha, mt19937_64 &generator)
 /*---------------------------------------------------------------------------*/
 /* Type 8:                                                                   */
 /* Ratio-of-uniforms with shift by 'mode', alternative implementation.       */

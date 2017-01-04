@@ -23,7 +23,7 @@ void test_seed()
 
 void test_generator()
 {
-  std::default_random_engine generator(0);
+  std::mt19937_64 generator(0);
   Random random(generator);
 
   assert(isclose(random.gig(2.1, 0.1, 1.0), 1.30869321355819901));
